@@ -21,7 +21,7 @@ Das System indiziert eigenständig den lokalen Obsidian-Vault, konvertiert Markd
 - **Framework:** LlamaIndex (spezialisiert auf Data-Centric LLM-Applikationen und sauberes Markdown-Parsing).
 - **Embedding & LLM Layer:** Ollama (lokale Ausführung von `nomic-embed-text` für Vektoren und `qwen2.5:3b` für die Antwortgenerierung).
 - **Vector Database:** ChromaDB (lokale, persistente In-Memory/Dateisystem-Datenbank über `./chroma_db`).
-- **Laufzeitumgebung:** Python 3.11 in einer isolierten virtuellen Umgebung (`venv`) auf Windows[cite: 3].
+- **Laufzeitumgebung:** Python 3.11 in einer isolierten virtuellen Umgebung (`venv`) auf Windows.
 
 ---
 
@@ -29,7 +29,7 @@ Das System indiziert eigenständig den lokalen Obsidian-Vault, konvertiert Markd
 
 1. **Ingestion & Parsing:** Einlesen von 40+ Markdown-Notizen aus dem Obsidian-Vault via `SimpleDirectoryReader` inklusive automatischer Metadaten-Zuordnung (`file_path`).
 2. **Chunking & Transformation:** Aufteilung der Notizen über den `SentenceSplitter` (Chunk-Größe: 512 Token, Overlap: 50 Token), um semantische Brüche an Dokumentgrenzen zu verhindern.
-3. **Persistente Indexierung:** Generierung von Embeddings und Speicherung in der lokalen ChromaDB. Dank persistenter Ablage werden Folgestarts in Bruchteilen einer Sekunde geladen[cite: 3].
+3. **Persistente Indexierung:** Generierung von Embeddings und Speicherung in der lokalen ChromaDB. Dank persistenter Ablage werden Folgestarts in Bruchteilen einer Sekunde geladen.
 4. **Retrieval & Generation (Query Engine):** Bei einer Anfrage werden die 3 relevantesten Text-Chunks (`similarity_top_k=3`) ermittelt, dem lokalen LLM als Kontext übergeben und mit Verweis auf die Quelldatei ausgegeben.
 
 ---
@@ -45,7 +45,7 @@ Das System indiziert eigenständig den lokalen Obsidian-Vault, konvertiert Markd
 ## 📂 Repository-Struktur
 
 ```text
-├── 🐍 rag_bot.py                  # Hauptskript für den interaktiven RAG-Chatbot[cite: 3]
-├── 📁 chroma_db/                  # Persistenter lokaler Vektorspeicher-Index[cite: 3]
+├── 🐍 rag_bot.py                  # Hauptskript für den interaktiven RAG-Chatbot
+├── 📁 chroma_db/                  # Persistenter lokaler Vektorspeicher-Index
 ├── 📄 requirements.txt            # Python-Abhängigkeiten (LlamaIndex, ChromaDB, Ollama etc.)
-└── 🖼️ rag-terminal-execution-output.png # Terminal-Ausführungs-Asset[cite: 3]
+└── 🖼️ rag-terminal-execution-output.png # Terminal-Ausführungs-Asset
