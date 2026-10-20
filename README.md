@@ -12,7 +12,7 @@ Das System indiziert eigenständig den lokalen Obsidian-Vault, konvertiert Markd
 
 ## 🖼️ Terminal Execution & Live-Ausführung
 
-![RAG Terminal Execution Output](rag-terminal-execution-output.png)[cite: 3]
+![RAG Terminal Execution Output](rag-terminal-execution-output.png)
 
 ---
 
@@ -30,7 +30,7 @@ Das System indiziert eigenständig den lokalen Obsidian-Vault, konvertiert Markd
 1. **Ingestion & Parsing:** Einlesen von 40+ Markdown-Notizen aus dem Obsidian-Vault via `SimpleDirectoryReader` inklusive automatischer Metadaten-Zuordnung (`file_path`).
 2. **Chunking & Transformation:** Aufteilung der Notizen über den `SentenceSplitter` (Chunk-Größe: 512 Token, Overlap: 50 Token), um semantische Brüche an Dokumentgrenzen zu verhindern.
 3. **Persistente Indexierung:** Generierung von Embeddings und Speicherung in der lokalen ChromaDB. Dank persistenter Ablage werden Folgestarts in Bruchteilen einer Sekunde geladen[cite: 3].
-4. **Retrieval & Generation (Query Engine):** Bei einer Anfrage werden die 3 relevantesten Text-Chunks (`similarity_top_k=3`) ermittelt, dem lokalen LLM als Kontext übergeben und mit Verweis auf die Quelldatei ausgegeben[cite: 3].
+4. **Retrieval & Generation (Query Engine):** Bei einer Anfrage werden die 3 relevantesten Text-Chunks (`similarity_top_k=3`) ermittelt, dem lokalen LLM als Kontext übergeben und mit Verweis auf die Quelldatei ausgegeben.
 
 ---
 
