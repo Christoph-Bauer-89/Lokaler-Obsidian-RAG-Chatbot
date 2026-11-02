@@ -10,7 +10,7 @@ from llama_index.vector_stores.chroma import ChromaVectorStore
 # 1. KONFIGURATION (Pfade & Modelle)
 # ==========================================
 # Trage hier den Pfad zu deinem Obsidian-Vault ein:
-OBSIDIAN_VAULT_PATH = r"C:\Users\chris\Documents\AI Überblick\Obsidian\KI_Knowledge_Base"
+OBSIDIAN_VAULT_PATH = r"C:/Dein/Pfad/zu/deinem/Vault"
 PERSIST_DIR = "./chroma_db"
 
 # ==========================================
