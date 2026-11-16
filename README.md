@@ -13,7 +13,7 @@
 
 * **Herausforderung:** Die effiziente und semantische Durchsuchung eines umfangreichen, lokalen Obsidian-Wissensarchivs (über 40 Markdown-Notizen), ohne sensible Notizen oder Daten an Cloud-Dienste (wie OpenAI oder Anthropic) zu übergeben.
 * **Lösung:** Entwicklung einer komplett lokalen RAG-Pipeline in Python. Das System indiziert den Obsidian-Vault, konvertiert Notizen in Vektoren und ermöglicht präzise Fragerunden mit exakter Quellenangabe (Dateinamen).
-* **Kern-Ergebnis:** Ein blitzschneller, offline-fähiger Chatbot mit lokal ausgeführten Ollama-Modellen, persistentem Vetherspeicher (ChromaDB) und absoluter Datensouveränität (Privacy-First).
+* **Kern-Ergebnis:** Ein blitzschneller, offline-fähiger Chatbot mit lokal ausgeführten Ollama-Modellen, persistentem Vektorspeicher (ChromaDB) und absoluter Datensouveränität (Privacy-First).
 
 ---
 
