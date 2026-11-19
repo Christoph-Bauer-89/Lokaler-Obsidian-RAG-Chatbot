@@ -1,63 +1,73 @@
-# 💬 Lokaler Obsidian-RAG-Chatbot (100% Privacy-First Wissensassistent)
+# 💬 Lokaler RAG-Chatbot für Obsidian-Notizen
 
-> Entwicklung eines lokalen RAG-Chatbots (Retrieval-Augmented Generation) zur datenschutzkonformen Abfrage des eigenen Obsidian-Wissensarchivs ohne Cloud-Anbindung.
-
----
-
-## 💡 Hinweis zur Entwicklung (AI-Driven Architecture & Development)
-*Transparenz-Hinweis:* Dieses Projekt wurde von mir als Solution Architect und Product Owner konzipiert und umgesetzt, wobei ich **Modern AI-Coding-Tools als High-Performance-Entwicklungspartner** genutzt habe. Mein Fokus lag dabei voll und ganz auf Systemarchitektur, Datenfluss, der lokalen RAG-Pipeline (LlamaIndex, ChromaDB, Ollama), Sicherheits- und Datenschutz-Aspekten sowie dem sauberen Setup. Das Projekt demonstriert mustergültig, wie man als moderner Builder und Architekt KI-Kollaboration einsetzt, um datenschutzkonforme, lokale KI-Applikationen auf Enterprise-Niveau umzusetzen.
+> Ein RAG-Chatbot (Retrieval-Augmented Generation), der Fragen zum eigenen Obsidian-Wissensarchiv beantwortet und dabei vollständig lokal ohne Cloud-Dienste läuft.
 
 ---
 
-## 🚀 Executive Summary
+## Rolle & Entwicklungsansatz
 
-* **Herausforderung:** Die effiziente und semantische Durchsuchung eines umfangreichen, lokalen Obsidian-Wissensarchivs (über 40 Markdown-Notizen), ohne sensible Notizen oder Daten an Cloud-Dienste (wie OpenAI oder Anthropic) zu übergeben.
-* **Lösung:** Entwicklung einer komplett lokalen RAG-Pipeline in Python. Das System indiziert den Obsidian-Vault, konvertiert Notizen in Vektoren und ermöglicht präzise Fragerunden mit exakter Quellenangabe (Dateinamen).
-* **Kern-Ergebnis:** Ein blitzschneller, offline-fähiger Chatbot mit lokal ausgeführten Ollama-Modellen, persistentem Vektorspeicher (ChromaDB) und absoluter Datensouveränität (Privacy-First).
-
----
-
-## 🛠️ Tech Stack & Architecture
-
-* **Framework:** LlamaIndex (spezialisiert auf Data-Centric LLM-Applikationen und sauberes Markdown-Parsing).
-* **Embedding & LLM Layer:** Ollama (lokale Ausführung von `nomic-embed-text` für Vektoren und `qwen2.5:3b` für die Antwortgenerierung).
-* **Vector Database:** ChromaDB (lokale, persistente In-Memory/Dateisystem-Datenbank über `./chroma_db`).
-* **Laufzeitumgebung:** Python 3.11 in einer isolierten virtuellen Umgebung (`venv`) auf Windows.
+* **Rolle:** Christoph Bauer, Business Analyst: Anforderungen, Aufbau der RAG-Pipeline (Chunking, Retrieval, Quellenangabe), Datenschutzkonzept und Test.
+* **Umsetzung:** Den Python-Code habe ich mit KI-Coding-Assistenten erstellt und anschließend getestet und angepasst.
 
 ---
 
-## ⚙️ Umsetzung & Pipeline-Design
+## Ausgangslage und Lösung
 
-1. **Ingestion & Parsing:** Einlesen von Markdown-Notizen aus dem Obsidian-Vault via `SimpleDirectoryReader` inklusive automatischer Metadaten-Zuordnung (`file_path`).
-2. **Chunking & Transformation:** Aufteilung der Notizen über den `SentenceSplitter` (Chunk-Größe: 512 Token, Overlap: 50 Token), um semantische Brüche an Dokumentengrenzen zu verhindern.
-3. **Persistente Indexierung:** Generierung von Embeddings und Speicherung in der lokalen ChromaDB. Dank persistenter Ablage werden Folgestarts in Bruchteilen einer Sekunde geladen.
-4. **Retrieval & Generation (Query Engine):** Bei einer Anfrage werden die 3 relevantesten Text-Chunks (`similarity_top_k=3`) ermittelt, dem lokalen LLM als Kontext übergeben und mit Verweis auf die Quelldatei ausgegeben.
+* **Ziel:** Ein lokales Obsidian-Archiv (über 40 Markdown-Notizen) inhaltlich durchsuchen, ohne Notizen an Cloud-Dienste wie OpenAI oder Anthropic zu übergeben.
+* **Lösung:** Eine lokale RAG-Pipeline in Python. Sie indexiert den Vault, speichert die Notizen als Vektoren und beantwortet Fragen mit Angabe der Quelldatei.
+* **Ergebnis:** Ein offline nutzbarer Chatbot mit lokalen Ollama-Modellen und einem dauerhaft gespeicherten Vektorindex (ChromaDB).
 
 ---
 
-## 🖼️ Terminal Execution & Live-Ausführung
+## Tech Stack
+
+* **Framework:** LlamaIndex
+* **Modelle (lokal über Ollama):** `nomic-embed-text` für Embeddings, `qwen2.5:3b` für die Antworten
+* **Vektordatenbank:** ChromaDB, gespeichert im Ordner `./chroma_db`
+* **Umgebung:** Python 3.11 in einer virtuellen Umgebung (`venv`) unter Windows
+
+---
+
+## Ablauf der Pipeline
+
+1. **Einlesen:** Markdown-Notizen aus dem Vault per `SimpleDirectoryReader`, inklusive Dateipfad als Metadatum.
+2. **Aufteilen:** `SentenceSplitter` mit 512 Token pro Abschnitt und 50 Token Überlappung, damit Zusammenhänge an Abschnittsgrenzen erhalten bleiben.
+3. **Indexieren:** Embeddings erzeugen und in ChromaDB speichern. Bei späteren Starts wird der vorhandene Index geladen statt neu berechnet.
+4. **Antworten:** Zu jeder Frage werden die 3 passendsten Abschnitte (`similarity_top_k=3`) gesucht, dem LLM als Kontext übergeben und mit Quelldatei ausgegeben.
+
+---
+
+## Ausführung
 
 ![Terminal Execution Output](Pictures/rag-terminal-execution-output.png)
 
 ---
 
-## 🎯 Key Learnings & Architecture Insights
+## Learnings
 
-1. **Python-Versionen & C++ Dependencies:** Moderne AI-Bibliotheken (wie ChromaDB, `hnswlib` und `numpy`) setzen auf tiefe Kompilierungen. Die Verwendung von Python 3.11 anstelle brandneuer Python-Releases verhindert Build-Fehler (`metadata-generation-failed`) und garantiert Stabilität.
-2. **Modulare Paketstruktur:** LlamaIndex hat Vektor-Store-Integrationen ausgelagert. Korrekte Paketbezeichnungen (z. B. `llama-index-vector-stores-chroma`) sind essenziell für fehlerfreie Importe.
-3. **Ground Truth & Traceability:** Die Verknüpfung von `node.metadata` mit dem Dateinamen stellt sicher, dass generierte Antworten stets überprüfbar und frei von Halluzinationen über das eigene Notizarchiv sind.
+1. **Python-Version wählen:** ChromaDB und ihre Abhängigkeiten (`hnswlib`, `numpy`) ließen sich unter der neuesten Python-Version nicht bauen (`metadata-generation-failed`). Mit Python 3.11 lief die Installation stabil.
+2. **Paketnamen prüfen:** LlamaIndex hat Integrationen in eigene Pakete ausgelagert, z. B. `llama-index-vector-stores-chroma`.
+3. **Nachvollziehbarkeit:** Die Angabe der Quelldatei zu jeder Antwort macht prüfbar, worauf sich das Modell stützt.
 
 ---
 
-## 📂 Repository-Structure
+## Einrichtung
+
+1. Ollama installieren und die Modelle laden: `ollama pull nomic-embed-text` und `ollama pull qwen2.5:3b`
+2. Abhängigkeiten installieren: `pip install -r requirements.txt`
+3. In `Scripts/rag_bot.py` den Pfad zum eigenen Vault in `OBSIDIAN_VAULT_PATH` eintragen.
+
+---
+
+## Repository-Struktur
 
 ```text
 ├── Scripts/
-│   └── rag_bot.py                 # Hauptskript für den interaktiven RAG-Chatbot
+│   └── rag_bot.py                         # Interaktiver RAG-Chatbot
 ├── Pictures/
-│   └── rag-terminal-execution-output.png # Terminal-Ausführungs-Asset
-├── chroma_db/                     # Persistenter lokaler Vektorspeicher-Index (local)
-├── requirements.txt               # Python-Abhängigkeiten (LlamaIndex, ChromaDB, Ollama etc.)
-└── README.md                      # Projektdokumentation
+│   └── rag-terminal-execution-output.png
+├── requirements.txt                       # LlamaIndex, ChromaDB, Ollama-Anbindung
+└── README.md
+```
 
-(Hinweis: Der persistente Vektorspeicher chroma_db/ sowie lokale Konfigurationen verbleiben aufgrund der lokalen Dateigröße und Datenschutzaspekte in der lokalen Entwicklungsumgebung und sind über .gitignore vom Public Upload ausgeschlossen).
+*Hinweis:* Der Vektorindex `chroma_db/` wird beim ersten Start lokal erzeugt und ist nicht Teil des Repositorys.
